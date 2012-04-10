@@ -204,7 +204,8 @@
       <div class="page-header">
         <h2><%=p.abbreviation%>지역 과거 <%=@timeval%>시 투표율</h2>
       </div>
-      <div id="container_<%=p.id%>" style="min-width: 400px; height: <%=p.regions.count*60+80%>px; margin: 0 auto"></div>
+      <div id="wrapper_<%=p.id%>" style="min-width: 400px; width:940px; height: <%=p.regions.count*60+80%>px; margin: 0 auto;position:absolute;z-index:10"></div>
+      <div id="container_<%=p.id%>" style="min-width: 400px; height: <%=p.regions.count*60+80%>px; margin: 0 auto;position:relative;"></div>
     </section>
 <% end %>
   </body>
