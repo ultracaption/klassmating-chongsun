@@ -14,74 +14,9 @@
     $(function () {
 
       var chart_top;
-      var chart_seoul;
+      var chart_region;
 
       $(document).ready(function() {
-        chart_seoul = new Highcharts.Chart({
-          chart: {
-            renderTo: 'container_seoul',
-            type: 'bar',
-            width: 940
-
-          },
-          title: {
-            text: ''
-          },
-          subtitle: {
-            text: ''
-          },
-          xAxis: {
-            categories: ['종로구', '강남구', '금천구', '관악구', '강속구'],
-            title: {
-              text: null
-            }
-          },
-          yAxis: {
-            min: 0,
-            title: {
-              text: 'Population (millions)',
-              align: 'high'
-            }
-          },
-          tooltip: {
-            formatter: function() {
-              return ''+
-                this.series.name +': '+ this.y +' millions';
-            }
-          },
-          plotOptions: {
-            bar: {
-              dataLabels: {
-                enabled: true
-              }
-            }
-          },
-          legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'top',
-            x: -100,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: '#FFFFFF',
-            shadow: true
-          },
-          credits: {
-            enabled: false
-          },
-            series: [{
-            name: '19대 총선',
-            data: [107, 31, 635, 203, 2]
-          }, {
-            name: '18대 총선',
-            data: [133, 156, 947, 408, 6]
-          }, {
-            name: '17대 총선',
-            data: [973, 914, 4054, 732, 34]
-          }]
-        });
-
         chart_top = new Highcharts.Chart({
           chart: {
             renderTo: 'container_top',
@@ -110,7 +45,7 @@
           tooltip: {
             formatter: function() {
                 return '<b>'+ this.series.name +'</b><br/>'+
-                this.x +': '+ this.y +'Â°C';
+                this.x +': '+ this.y +'%';
             }
           },
           legend: {
@@ -123,17 +58,84 @@
           },
           series: [{
             name: '17대 총선',
-            data: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+            data: <%=Turnout.where(:index=>17, :province_id=>0).order(:time).map{|x| (x.rate*10000).round/100.0}.inspect%>
           }, {
             name: '18대 총선',
-            data: [4, 9, 10, 20, 25, 30, 35, 40, 45, 50]
+            data: <%=Turnout.where(:index=>18, :province_id=>0).order(:time).map{|x| (x.rate*10000).round/100.0}.inspect%>
           }, {
             name: '19대 총선',
-            data: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+            data: <%=Turnout.where(:index=>19, :province_id=>0).order(:time).map{|x| (x.rate*10000).round/100.0}.inspect%>
           }]
         });
       });
         
+<% Province.all.each do |p| %>
+      chart_region = new Highcharts.Chart({
+        chart: {
+          renderTo: 'container_<%=p.id%>',
+          type: 'bar',
+          width: 940
+
+        },
+        title: {
+          text: ''
+        },
+        subtitle: {
+          text: ''
+        },
+        xAxis: {
+          categories: <%=raw p.regions.map{|x| x.name}.inspect%>,
+          title: {
+            text: null
+          }
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: '투표율',
+            align: 'high'
+          }
+        },
+        tooltip: {
+          formatter: function() {
+            return ''+
+              this.series.name +': '+ this.y +'%';
+          }
+        },
+        plotOptions: {
+          bar: {
+            dataLabels: {
+              enabled: true
+            }
+          }
+        },
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'top',
+          x: -100,
+          y: 100,
+          floating: true,
+          borderWidth: 1,
+          backgroundColor: '#FFFFFF',
+          shadow: true
+        },
+        credits: {
+          enabled: false
+        },
+          series: [{
+          name: '19대 총선',
+          data: <%=Turnout.where(:index=>19, :province_id=>p.id, :time=>@time).where("region_id>0").order(:region_id).map{|x| (x.rate*10000).round/100.0}.inspect%>
+        }, {
+          name: '18대 총선',
+          data: <%=Turnout.where(:index=>18, :province_id=>p.id, :time=>@time).where("region_id>0").order(:region_id).map{|x| (x.rate*10000).round/100.0}.inspect%>
+        }, {
+          name: '17대 총선',
+          data: <%=Turnout.where(:index=>17, :province_id=>p.id, :time=>@time).where("region_id>0").order(:region_id).map{|x| (x.rate*10000).round/100.0}.inspect%>
+        }]
+      });
+<% end %>
+
     });
     </script>
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
@@ -178,18 +180,20 @@
     </div>
     <section>
       <div class="page-header">
-        <h2>전체 투표율(13시 현재)</h2>
+        <h2>전체 투표율(<%=@timeval%>시 현재)</h2>
       </div>
       <div id="container_top" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
     </section>
     <section>
       <div style="background-color:white" class="fb-comments" data-href="http://2012.ultracaption.net" data-num-posts="15" data-width="940"></div>
     </section>
+<% Province.all.each do |p| %>
     <section>
       <div class="page-header">
-        <h2>서울지역 과거 13시 투표율</h2>
+        <h2><%=p.abbreviation%>지역 과거 <%=@timeval%>시 투표율</h2>
       </div>
-      <div id="container_seoul" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+      <div id="container_<%=p.id%>" style="min-width: 400px; height: <%=p.regions.count*60+80%>px; margin: 0 auto"></div>
     </section>
+<% end %>
   </body>
 </html>
