@@ -3,6 +3,7 @@ http = Net::HTTP.new(uri.host, uri.port)
 resp = http.get(uri.request_uri)
 doc = Nokogiri::HTML(resp.body)
 doc.css("#table01 tbody tr").each_with_index do |d,i|
+  puts "doc parsing#{d}"
   d = d.css("td")
   if i == 0
     province_id = 0
@@ -22,6 +23,7 @@ doc.css("#table01 tbody tr").each_with_index do |d,i|
   end
 end
 Province.all.each do |p|
+  puts "province parsing#{p}"
   uri = URI.parse("http://info.nec.go.kr/electioninfo/electionInfo_report.action?electionId=0020120411&requestURI=%2Felectioninfo%2F0020120411%2Fvc%2Fvcvp01.jsp&topMenuId=VC&secondMenuId=VCVP&menuId=VCVP01&statementId=VCVP01_%232&cityCode="+p.code+"&timeCode=0")
   begin
     resp = http.get(uri.request_uri)
