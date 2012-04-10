@@ -25,4 +25,32 @@ class MainController < ApplicationController
     end
   end
 
+  def slug
+    province_name = params[:slug][0..5]
+    @province = Province.where(:abbreviation=>province_name).first
+    district_name = params[:slug][6..-1]
+    if district_name.nil? or district_name.length==0
+      if @province.nil?
+        render :text => "없는 지역입니다"
+      else
+        province
+      end
+    else
+      @district = District.where(:province_id=>@province.id, :abbreviation=>district_name).first
+      if @district.nil?
+        render :text => "없는 지역구입니다"
+      else
+        district
+      end
+    end
+  end
+
+  def province
+    render :text => @province.name
+  end
+
+  def district
+    render :text => @district.name
+  end
+
 end

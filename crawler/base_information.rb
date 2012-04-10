@@ -36,14 +36,19 @@ begin
 end while resp.code!="200"
 data = JSON.parse(resp.body)["body"]
 data.each do |d|
-  province = Province.create(:name=>d["NAME"], :code=>d["CODE"])
+  abbreviation = d["NAME"][0..5]
+  if d["NAME"].match(/남도|북도/)
+    abbreviation = d["NAME"][0..2]+d["NAME"][6..8]
+  end
+  province = Province.create(:name=>d["NAME"], :code=>d["CODE"], :abbreviation=>abbreviation)
   uri2 = URI.parse("http://info.nec.go.kr/bizcommon/selectbox/selectbox_getSggCityCodeJson.json?electionId=0020120411&electionCode=2&cityCode="+d["CODE"].to_s)
   begin
     resp2 = http.get(uri2.request_uri)
   end while resp2.code!="200"
   data2 = JSON.parse(resp2.body)["body"]
   data2.each do |dd|
-    district = District.create(:province_id=>province.id, :name=>dd["NAME"], :code=>dd["CODE"])
+    abbreviation = dd["NAME"].gsub(/(.)(시|군|구)/,"\\1")
+    district = District.create(:province_id=>province.id, :name=>dd["NAME"], :code=>dd["CODE"], :abbreviation=>abbreviation)
     uri3 = URI.parse("http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?electionId=0020120411&requestURI=%2Felectioninfo%2F0020120411%2Fcp%2Fcpri03.jsp&topMenuId=CP&secondMenuId=CPRI03&menuId=&statementId=CPRI03_%232&electionCode=2&cityCode="+province.code.to_s+"&sggCityCode="+district.code.to_s)
     begin
       resp3 = http.get(uri3.request_uri)
