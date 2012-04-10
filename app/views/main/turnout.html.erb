@@ -1,0 +1,135 @@
+<script type="text/javascript">
+$(function () {
+
+  var chart_top;
+  var chart_seoul;
+
+  $(document).ready(function() {
+    chart_seoul = new Highcharts.Chart({
+      chart: {
+        renderTo: 'container_seoul',
+        type: 'bar'
+      },
+      title: {
+        text: ''
+      },
+      subtitle: {
+        text: ''
+      },
+      xAxis: {
+        categories: ['종로구', '강남구', '금천구', '관악구', '강속구'],
+        title: {
+          text: null
+        }
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Population (millions)',
+          align: 'high'
+        }
+      },
+      tooltip: {
+        formatter: function() {
+          return ''+
+            this.series.name +': '+ this.y +' millions';
+        }
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'top',
+        x: -100,
+        y: 100,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor: '#FFFFFF',
+        shadow: true
+      },
+      credits: {
+        enabled: false
+      },
+        series: [{
+        name: '19대 총선',
+        data: [107, 31, 635, 203, 2]
+      }, {
+        name: '18대 총선',
+        data: [133, 156, 947, 408, 6]
+      }, {
+        name: '17대 총선',
+        data: [973, 914, 4054, 732, 34]
+      }]
+    });
+
+    chart_top = new Highcharts.Chart({
+      chart: {
+        renderTo: 'container_top',
+        type: 'line',
+        marginRight: 130,
+        marginBottom: 25
+      },
+      title: {
+        text: ''
+      },
+      subtitle: {
+        text: ''
+      },
+      xAxis: {
+        categories: ['7시', '9시', '11시', '12시', '13시', '14시', '15시', '16시', '17시', '18시(최종)']
+      },
+      yAxis: {
+        title: {
+          text: '투표율'
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }]
+      },
+      tooltip: {
+        formatter: function() {
+            return '<b>'+ this.series.name +'</b><br/>'+
+            this.x +': '+ this.y +'Â°C';
+        }
+      },
+      legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'top',
+        x: -10,
+        y: 100,
+        borderWidth: 0
+      },
+      series: [{
+        name: '17대 총선',
+        data: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+      }, {
+        name: '18대 총선',
+        data: [4, 9, 10, 20, 25, 30, 35, 40, 45, 50]
+      }, {
+        name: '19대 총선',
+        data: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+      }]
+    });
+  });
+    
+});
+</script>
+<h1>2012년 19대 총선 투표율</h1>
+<div id="container_top" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+<h1>서울지역 현재 투표율(13시 현재)</h1>
+<div id="container_seoul" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+<h1>경기 지역 현재 투표율(13시 현재)</h1>
+<div id="container_seoul" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+<h1>강원지역 현재 투표율(13시 현재)</h1>
+<div id="container_seoul" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+<h1>경남지역 현재 투표율(13시 현재)</h1>
+<div id="container_seoul" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
