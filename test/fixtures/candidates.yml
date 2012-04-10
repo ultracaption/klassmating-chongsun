@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  district_id: 1
+  party_id: 1
+  number: 1
+  name: MyString
+  photo_url: MyString
+
+two:
+  district_id: 1
+  party_id: 1
+  number: 1
+  name: MyString
+  photo_url: MyString
