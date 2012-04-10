@@ -33,7 +33,8 @@
           chart: {
             renderTo: 'container_top',
             type: 'line',
-            width: 940
+            width: 940,
+            height: 550
           },
           title: {
             text: ''
@@ -60,6 +61,15 @@
                 this.x +': '+ this.y +'%';
             }
           },
+          plotOptions: {
+            line: {
+              dataLabels: {
+                enabled: true
+              },
+              enableMouseTracking: false
+            }
+          },
+
           legend: {
             layout: 'vertical',
             align: 'right',
@@ -194,7 +204,9 @@
       <div class="page-header">
         <h2>전체 투표율(<%=@timeval%>시 현재)</h2>
       </div>
-      <div id="container_top" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+      <div id="wrapper_top" style="min-width: 400px; width:940px; height:550px; margin: 0 auto;position:absolute;z-index:10"></div>
+      <div id="container_top" style="min-width: 400px; height: 550px; margin: 0 auto;position:relative"></div>
     </section>
     <section>
       <div style="background-color:white" class="fb-comments" data-href="http://2012.ultracaption.net" data-num-posts="15" data-width="940"></div>
