@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120410175113) do
+ActiveRecord::Schema.define(:version => 20120410182705) do
 
   create_table "candidates", :force => true do |t|
     t.integer  "district_id"
@@ -94,10 +94,11 @@ ActiveRecord::Schema.define(:version => 20120410175113) do
   create_table "turnouts", :force => true do |t|
     t.integer  "time"
     t.integer  "region_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "index"
     t.float    "rate"
+    t.integer  "province_id"
   end
 
 end
