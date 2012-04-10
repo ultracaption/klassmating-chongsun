@@ -1,5 +1,8 @@
 # encoding: UTF-8
+
 class MainController < ApplicationController
+
+  layout false
 
   @@province = %w[서울 경기도 강원도]
   @@region = %w[수원 안양]

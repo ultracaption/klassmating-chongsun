@@ -2,10 +2,14 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta property="fb:admins" content="100000800851255"/>
     <meta http-equiv="refresh" content="300">
-    <title>2011 서울시장선거 실시간 현황</title>
-    <script type="text/javascript" src="/javascripts/jquery.js"></script>
+    <title>2012년 19대 총선 실시간 투표율 </title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "http://code.highcharts.com/highcharts.js" %>
+  <%= javascript_include_tag "http://code.highcharts.com/modules/exporting.js" %>
+
+  <%= csrf_meta_tags %>
     <script type="text/javascript">
     $(function () {
 
