@@ -152,10 +152,22 @@
     </style>
   </head>
   <body>
+
+    <div id="fb-root"></div>
+    <script>
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=11114090868";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
     <div id="global_container" class="container">
     <div id="elec_header">
+    <div class="fb-like" data-href="http://2012.ultracaption.net" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
     <h1>
-      2012년 19대 총선 중계
+      2012년 19대 총선 실시간 투표율 
       <small>powered by <a href="https://klassmate.com" target="_blank" style="color: #C51E13">Klassmate</a></small>
     </h1>
     </div>
@@ -164,6 +176,9 @@
         <h2>전체 투표율(13시 현재)</h2>
       </div>
       <div id="container_top" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+    </section>
+    <section>
+      <div class="fb-comments" data-href="http://2012.ultracaption.net" data-num-posts="15" data-width="700"></div>
     </section>
     <section>
       <div class="page-header">
