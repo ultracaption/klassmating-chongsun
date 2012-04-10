@@ -70,14 +70,14 @@
             borderWidth: 0
           },
           series: [{
-            name: '17대 총선',
-            data: <%=Turnout.where(:index=>17, :province_id=>0).order(:time).map{|x| (x.rate*10000).round/100.0}.inspect%>
+            name: '19대 총선',
+            data: <%=Turnout.where(:index=>19, :province_id=>0).order(:time).map{|x| (x.rate*10000).round/100.0}.inspect%>
           }, {
             name: '18대 총선',
             data: <%=Turnout.where(:index=>18, :province_id=>0).order(:time).map{|x| (x.rate*10000).round/100.0}.inspect%>
           }, {
-            name: '19대 총선',
-            data: <%=Turnout.where(:index=>19, :province_id=>0).order(:time).map{|x| (x.rate*10000).round/100.0}.inspect%>
+            name: '17대 총선',
+            data: <%=Turnout.where(:index=>17, :province_id=>0).order(:time).map{|x| (x.rate*10000).round/100.0}.inspect%>
           }]
         });
       });
