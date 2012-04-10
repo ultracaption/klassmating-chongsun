@@ -84,7 +84,7 @@
           text: ''
         },
         xAxis: {
-          categories: <%=raw p.regions.map{|x| x.name}.inspect%>,
+          categories: <%=raw p.regions.map{|x| x.name+" "}.inspect%>,
           title: {
             text: null
           }

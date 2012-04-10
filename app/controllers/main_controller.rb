@@ -10,7 +10,7 @@ class MainController < ApplicationController
   @@sort = %w[새누리당오름차순 새누리당내림차순]
 
   def turnout
-    @time = Turnout.where(:index=>19).order(:time).last.time
+    @time = Turnout.where(:index=>19).order(:time).last.time rescue 1
     @timeval = [7,9,11,12,13,14,15,16,17,18][@time-1]
   end
 
