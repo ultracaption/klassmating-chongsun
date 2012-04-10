@@ -53,7 +53,6 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.18)
     multi_json (1.2.0)
-    mysql2 (0.3.11)
     nokogiri (1.5.0)
     polyglot (0.3.3)
     rack (1.4.1)
@@ -107,7 +106,6 @@ DEPENDENCIES
   coffee-rails (~> 3.2.0)
   jquery-rails
   json
-  mysql2
   nokogiri
   rails (= 3.2.0.rc2)
   sass-rails (~> 3.2.3)
