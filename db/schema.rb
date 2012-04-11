@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120410182705) do
+ActiveRecord::Schema.define(:version => 20120411103512) do
 
   create_table "candidates", :force => true do |t|
     t.integer  "district_id"
@@ -70,8 +70,9 @@ ActiveRecord::Schema.define(:version => 20120410182705) do
     t.integer  "region_id"
     t.integer  "party_id"
     t.integer  "count"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "province_id"
   end
 
   create_table "provinces", :force => true do |t|
