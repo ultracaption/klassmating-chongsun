@@ -173,6 +173,32 @@
       <div id="wrapper_top" style="min-width: 400px; width:940px; height:550px; margin: 0 auto;position:absolute;z-index:10"></div>
       <div id="container_top" style="min-width: 400px; height: 550px; margin: 0 auto;position:relative"></div>
     </section>
+<% if @district %>
+    <section>
+      <table>
+        <thead>
+          <tr>
+            <th class="number">기호</th>
+            <th class="photo">사진</th>
+            <th class="party">정당</th>
+            <th class="name">이름</th>
+            <th class="vote">득표수 (득표율)</th>
+          </tr>
+        </thead>
+        <tbody>
+<% @district.candidates.each do |c| %>
+          <tr>
+            <td class="number"><%=c.number%></td>
+            <td class="photo"><%=image_tag "http://info.nec.go.kr"+c.photo_url,:class=>"profile_image"%></td>
+            <td class="party"><%=c.party.name%></td>
+            <td class="name"><%=c.name%></td>
+            <td class="vote"><%=DistrictVote.where(:candidate_id=>c.id).last.count%> (<%=(DistrictVote.where(:candidate_id=>c.id).last.count/@total*10000).round/100.0 rescue 0.0%>%)</td>
+          </tr>
+<% end %>
+        </tbody>
+      </table>
+    </section>
+<% end %>
     <section>
       <div style="background-color:white" class="fb-comments" data-href="http://2012.ultracaption.net" data-num-posts="15" data-width="940"></div>
     </section>

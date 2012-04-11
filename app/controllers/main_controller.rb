@@ -59,7 +59,7 @@ class MainController < ApplicationController
     @turnout17 = Turnout.where(:index=>17, :province_id=>@province.id, :region_id=>0).order(:time)
     @title = @province.name
     @linklist = @province.districts.map{|x| [x.name,@province.abbreviation+x.abbreviation]}
-    render :action => :turnout
+    render :action => :counting
   end
 
   def district
@@ -70,7 +70,9 @@ class MainController < ApplicationController
     @turnout18 = Turnout.where(:index=>18, :province_id=>@district.province_id, :region_id=>region.id).order(:time)
     @turnout17 = Turnout.where(:index=>17, :province_id=>@district.province_id, :region_id=>region.id).order(:time)
     @title = @district.province.name+" "+@district.name
-    render :action => :turnout
+    ltime = DistrictVote.where(:district_id=>@district.id).order(:time).last.time
+    @total = DistrictVote.where(:district_id=>@district.id,:time=>ltime).sum(:count).to_f
+    render :action => :counting
   end
 
   def input_district
@@ -87,8 +89,8 @@ class MainController < ApplicationController
   def input_party
     params[:packet].split("|").each do |segment|
       arr = segment.split(",")
-      province_id = Province.where(:name=>arr[1]).first.id rescue 0
-      region_id = Region.where(:province_id=>province_id,:name=>arr[2]).first.id rescue 0
+      province_id = (Province.where(:name=>arr[1]).first.id rescue 0)
+      region_id = (Region.where(:province_id=>province_id,:name=>arr[2]).first.id rescue 0)
       party_id = Party.where(:name=>arr[3]).first.id
       vote = PartyVote.create(:time=>arr[0],:province_id=>province_id,:region_id=>region_id,:party_id=>party_id,:count=>arr[4])
     end
