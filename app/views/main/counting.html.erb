@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>2012년 19대 총선 실시간 개표상황 </title>
+  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "http://code.highcharts.com/highcharts.js" %>
+  <%= javascript_include_tag "http://code.highcharts.com/modules/exporting.js" %>
+
+  <%= csrf_meta_tags %>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30755209-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+    <script type="text/javascript">
+    $(function () {
+
+      var chart_top;
+      var chart_region;
+
+      $(document).ready(function() {
+        chart_top = new Highcharts.Chart({
+          chart: {
+            renderTo: 'container_top',
+            type: 'line',
+            width: 940,
+            height: 550
+          },
+          title: {
+            text: ''
+          },
+          subtitle: {
+            text: ''
+          },
+          xAxis: {
+            categories: ['7시', '9시', '11시', '12시', '13시', '14시', '15시', '16시', '17시', '18시(최종)']
+          },
+          yAxis: {
+            title: {
+              text: '투표율'
+            },
+            plotLines: [{
+              value: 0,
+              width: 1,
+              color: '#808080'
+            }]
+          },
+          tooltip: {
+            formatter: function() {
+                return '<b>'+ this.series.name +'</b><br/>'+
+                this.x +': '+ this.y +'%';
+            }
+          },
+          plotOptions: {
+            line: {
+              dataLabels: {
+                enabled: true
+              },
+              enableMouseTracking: false
+            }
+          },
+
+          legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -10,
+            y: 100,
+            borderWidth: 0
+          },
+          series: [{
+            name: '19대 총선',
+            data: <%=@turnout19.map{|x| (x.rate*10000).round/100.0}.inspect%>
+          }, {
+            name: '18대 총선',
+            data: <%=@turnout18.map{|x| (x.rate*10000).round/100.0}.inspect%>
+          }, {
+            name: '17대 총선',
+            data: <%=@turnout17.map{|x| (x.rate*10000).round/100.0}.inspect%>
+          }]
+        });
+      });
+        
+/*
+<% Province.all.each do |p| %>
+      chart_region = new Highcharts.Chart({
+        chart: {
+          renderTo: 'container_<%=p.id%>',
+          type: 'bar',
+          width: 940
+
+        },
+        title: {
+          text: ''
+        },
+        subtitle: {
+          text: ''
+        },
+        xAxis: {
+          categories: <%=raw p.regions.map{|x| x.name+" "}.inspect%>,
+          title: {
+            text: null
+          }
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: '투표율',
+            align: 'high'
+          }
+        },
+        tooltip: {
+          formatter: function() {
+            return ''+
+              this.series.name +': '+ this.y +'%';
+          }
+        },
+        plotOptions: {
+          bar: {
+            dataLabels: {
+              enabled: true
+            }
+          }
+        },
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'top',
+          x: -100,
+          y: 100,
+          floating: true,
+          borderWidth: 1,
+          backgroundColor: '#FFFFFF',
+          shadow: true
+        },
+        credits: {
+          enabled: false
+        },
+          series: [{
+          name: '19대 총선',
+          data: <%=Turnout.where(:index=>19, :province_id=>p.id, :time=>@time).where("region_id>0").order(:region_id).map{|x| (x.rate*10000).round/100.0}.inspect%>
+        }, {
+          name: '18대 총선',
+          data: <%=Turnout.where(:index=>18, :province_id=>p.id, :time=>@time).where("region_id>0").order(:region_id).map{|x| (x.rate*10000).round/100.0}.inspect%>
+        }, {
+          name: '17대 총선',
+          data: <%=Turnout.where(:index=>17, :province_id=>p.id, :time=>@time).where("region_id>0").order(:region_id).map{|x| (x.rate*10000).round/100.0}.inspect%>
+        }]
+      });
+<% end %>
+*/
+
+      $("#region").change(function() {
+        location.href = $("#region").val();
+      });
+    });
+    </script>
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
+    <style>
+      h1, h2 {
+        color: white;
+      }
+      body {
+        background: url(<%=asset_path 'bg.jpg'%>) repeat fixed;
+        font-family: 나눔고딕;
+      }
+      #global_container {
+        padding-top: 60px;
+      }
+      #navigation {
+        height: 30px;
+        margin-bottom: 10px;
+      }
+      #navigation span {
+        color: white;
+        margin-right: 20px;
+      }
+      section {
+        margin: 60px 0px;
+      }
+      table {
+        background: white;
+      }
+      img.profile_image {
+        width: 100px;
+      }
+      table .number {
+        width: 10%;
+      }
+      table .photo {
+        width: 20%;
+      }
+      table .party {
+        width: 20%;
+      }
+      table .name {
+        width: 20%;
+      }
+      table .vote {
+        width: 30%;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="fb-root"></div>
+    <script>
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=11114090868";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div id="global_container" class="container">
+    <div id="elec_header">
+    <div class="fb-like" data-href="http://2012.ultracaption.net" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
+    <h1>
+      2012년 19대 총선 실시간 투표율 
+      <!--<small>powered by <a href="https://klassmate.com" target="_blank" style="color: #C51E13">Klassmate</a></small>-->
+    </h1>
+    </div>
+    <section>
+      <div class="page-header">
+        <h2><%=@title%> 투표율(<%=@timeval%>시 현재)</h2>
+      </div>
+      <div id="navigation">
+<% if @linklist%>
+        <span>지역 별로 보기</span>
+        <select id="region">
+          <option value="">지역 선택</option>
+<% @linklist.each do |link| %>
+          <option value="<%=link[1]%>"><%=link[0]%></option>
+<% end %>
+        </select>
+<% end %>
+      </div>
+
+      <div id="wrapper_top" style="min-width: 400px; width:940px; height:550px; margin: 0 auto;position:absolute;z-index:10"></div>
+      <div id="container_top" style="min-width: 400px; height: 550px; margin: 0 auto;position:relative"></div>
+    </section>
+<% if @district %>
+    <section>
+      <table>
+        <thead>
+          <tr>
+            <th class="number">기호</th>
+            <th class="photo">사진</th>
+            <th class="party">정당</th>
+            <th class="name">이름</th>
+            <th class="vote">득표수 (득표율)</th>
+          </tr>
+        </thead>
+        <tbody>
+<% @district.candidates.each do |c| %>
+          <tr>
+            <td class="number"><%=c.number%></td>
+            <td class="photo"><%=image_tag "http://info.nec.go.kr"+c.photo_url,:class=>"profile_image"%></td>
+            <td class="party"><%=c.party.name%></td>
+            <td class="name"><%=c.name%></td>
+            <td class="vote">0 (0.0%)</td>
+          </tr>
+<% end %>
+        </tbody>
+      </table>
+    </section>
+<% end %>
+    <section>
+      <div style="background-color:white" class="fb-comments" data-href="http://2012.ultracaption.net" data-num-posts="15" data-width="940"></div>
+    </section>
+  </body>
+</html>
