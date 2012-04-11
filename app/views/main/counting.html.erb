@@ -46,7 +46,7 @@
           },
           yAxis: {
             title: {
-              text: '투표율'
+              text: '득표율'
             },
             plotLines: [{
               value: 0,
@@ -58,14 +58,6 @@
             formatter: function() {
                 return '<b>'+ this.series.name +'</b><br/>'+
                 this.x +': '+ this.y +'%';
-            }
-          },
-          plotOptions: {
-            line: {
-              dataLabels: {
-                enabled: true
-              },
-              enableMouseTracking: false
             }
           },
 
@@ -89,75 +81,6 @@
           }]
         });
       });
-        
-/*
-<% Province.all.each do |p| %>
-      chart_region = new Highcharts.Chart({
-        chart: {
-          renderTo: 'container_<%=p.id%>',
-          type: 'bar',
-          width: 940
-
-        },
-        title: {
-          text: ''
-        },
-        subtitle: {
-          text: ''
-        },
-        xAxis: {
-          categories: <%=raw p.regions.map{|x| x.name+" "}.inspect%>,
-          title: {
-            text: null
-          }
-        },
-        yAxis: {
-          min: 0,
-          title: {
-            text: '투표율',
-            align: 'high'
-          }
-        },
-        tooltip: {
-          formatter: function() {
-            return ''+
-              this.series.name +': '+ this.y +'%';
-          }
-        },
-        plotOptions: {
-          bar: {
-            dataLabels: {
-              enabled: true
-            }
-          }
-        },
-        legend: {
-          layout: 'vertical',
-          align: 'right',
-          verticalAlign: 'top',
-          x: -100,
-          y: 100,
-          floating: true,
-          borderWidth: 1,
-          backgroundColor: '#FFFFFF',
-          shadow: true
-        },
-        credits: {
-          enabled: false
-        },
-          series: [{
-          name: '19대 총선',
-          data: <%=Turnout.where(:index=>19, :province_id=>p.id, :time=>@time).where("region_id>0").order(:region_id).map{|x| (x.rate*10000).round/100.0}.inspect%>
-        }, {
-          name: '18대 총선',
-          data: <%=Turnout.where(:index=>18, :province_id=>p.id, :time=>@time).where("region_id>0").order(:region_id).map{|x| (x.rate*10000).round/100.0}.inspect%>
-        }, {
-          name: '17대 총선',
-          data: <%=Turnout.where(:index=>17, :province_id=>p.id, :time=>@time).where("region_id>0").order(:region_id).map{|x| (x.rate*10000).round/100.0}.inspect%>
-        }]
-      });
-<% end %>
-*/
 
       $("#region").change(function() {
         location.href = $("#region").val();
@@ -226,8 +149,7 @@
     <div id="elec_header">
     <div class="fb-like" data-href="http://2012.ultracaption.net" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
     <h1>
-      2012년 19대 총선 실시간 투표율 
-      <!--<small>powered by <a href="https://klassmate.com" target="_blank" style="color: #C51E13">Klassmate</a></small>-->
+      2012년 19대 총선 실시간 득표율 
     </h1>
     </div>
     <section>
@@ -243,38 +165,13 @@
           <option value="<%=link[1]%>"><%=link[0]%></option>
 <% end %>
         </select>
+<% else %>
+        <span><a href="2012.ultracaption.net">메인으로 가기</a></span>
 <% end %>
       </div>
-
       <div id="wrapper_top" style="min-width: 400px; width:940px; height:550px; margin: 0 auto;position:absolute;z-index:10"></div>
       <div id="container_top" style="min-width: 400px; height: 550px; margin: 0 auto;position:relative"></div>
     </section>
-<% if @district %>
-    <section>
-      <table>
-        <thead>
-          <tr>
-            <th class="number">기호</th>
-            <th class="photo">사진</th>
-            <th class="party">정당</th>
-            <th class="name">이름</th>
-            <th class="vote">득표수 (득표율)</th>
-          </tr>
-        </thead>
-        <tbody>
-<% @district.candidates.each do |c| %>
-          <tr>
-            <td class="number"><%=c.number%></td>
-            <td class="photo"><%=image_tag "http://info.nec.go.kr"+c.photo_url,:class=>"profile_image"%></td>
-            <td class="party"><%=c.party.name%></td>
-            <td class="name"><%=c.name%></td>
-            <td class="vote">0 (0.0%)</td>
-          </tr>
-<% end %>
-        </tbody>
-      </table>
-    </section>
-<% end %>
     <section>
       <div style="background-color:white" class="fb-comments" data-href="http://2012.ultracaption.net" data-num-posts="15" data-width="940"></div>
     </section>
