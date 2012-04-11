@@ -42,7 +42,7 @@ Province.all.each do |p|
   doc.css("#table01 tbody tr").each do |d|
     d = d.css("td")
     time = Time.now.to_i/600
-    if d[0].inner_text.strip == ""
+    if d[0].inner_text.strip == "" and district
       if district.total_count.nil?
         total_count = d[1].inner_text.match(/([^(]*)/)[1].gsub(",","")
         voter_count = d[2].inner_text.match(/([^(]*)/)[1].gsub(",","")
@@ -54,6 +54,7 @@ Province.all.each do |p|
 #http2.post("/id","time=#{time}&province=#{p.name}&district=#{district.name}&candidate=#{c.name}&count=#{count}")
         district_packet += "#{time}%2C#{p.name}%2C#{district.name}%2C#{c.name}%2C#{count}%7C"
       end
+      district = nil
     else
       district = District.where(:province_id=>p.id, :name=>d[0].inner_text.strip).first
     end
