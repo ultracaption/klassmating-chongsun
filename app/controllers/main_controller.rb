@@ -73,4 +73,20 @@ class MainController < ApplicationController
     render :action => :turnout
   end
 
+  def input_district
+    province_id = Province.where(:name=>params[:province]).first.id
+    district_id = District.where(:province_id=>province_id,:name=>params[:district]).first.id
+    candidate_id = Candidate.where(:district_id=>district_id,:name=>params[:candidate]).first.id
+    vote = DistrictVote.create(:time=>params[:time],:district_id=>district_id, :candidate_id=>candidate_id, :count=>params[:count])
+    render :text => vote.inspect
+  end
+
+  def input_party
+    province_id = Province.where(:name=>params[:province]).first.id rescue 0
+    region_id = Region.where(:province_id=>province_id,:name=>params[:region]).first.id rescue 0
+    party_id = Party.where(:name=>params[:party]).first.id
+    vote = PartyVote.create(:time=>params[:time],:region_id=>region_id,:party_id=>party_id,:count=>params[:count])
+    render :text => vote.inspect
+  end
+
 end
