@@ -12,6 +12,11 @@ class MainController < ApplicationController
   def turnout
     @time = Turnout.where(:index=>19).order(:time).last.time rescue 1
     @timeval = [7,9,11,12,13,14,15,16,17,18][@time-1]
+    @turnout19 = Turnout.where(:index=>19, :province_id=>0).order(:time)
+    @turnout18 = Turnout.where(:index=>18, :province_id=>0).order(:time)
+    @turnout17 = Turnout.where(:index=>17, :province_id=>0).order(:time)
+    @title = "전체"
+    @linklist = Province.all.map{|x| [x.name,x.abbreviation]}
   end
 
   def counting
@@ -47,11 +52,25 @@ class MainController < ApplicationController
   end
 
   def province
-    render :text => @province.name
+    @time = Turnout.where(:index=>19).order(:time).last.time rescue 1
+    @timeval = [7,9,11,12,13,14,15,16,17,18][@time-1]
+    @turnout19 = Turnout.where(:index=>19, :province_id=>@province.id, :region_id=>0).order(:time)
+    @turnout18 = Turnout.where(:index=>18, :province_id=>@province.id, :region_id=>0).order(:time)
+    @turnout17 = Turnout.where(:index=>17, :province_id=>@province.id, :region_id=>0).order(:time)
+    @title = @province.name
+    @linklist = @province.districts.map{|x| [x.name,@province.abbreviation+x.abbreviation]}
+    render :action => :turnout
   end
 
   def district
-    render :text => @district.name
+    @time = Turnout.where(:index=>19).order(:time).last.time rescue 1
+    @timeval = [7,9,11,12,13,14,15,16,17,18][@time-1]
+    region = @district.regions.first
+    @turnout19 = Turnout.where(:index=>19, :province_id=>@district.province_id, :region_id=>region.id).order(:time)
+    @turnout18 = Turnout.where(:index=>18, :province_id=>@district.province_id, :region_id=>region.id).order(:time)
+    @turnout17 = Turnout.where(:index=>17, :province_id=>@district.province_id, :region_id=>region.id).order(:time)
+    @title = @district.province.name+" "+@district.name
+    render :action => :turnout
   end
 
 end
